@@ -1,0 +1,5 @@
+/nocturncptc
+.gocache/
+.gotmp/
+.env
+/nocturncptc-test

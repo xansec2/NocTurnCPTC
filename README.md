@@ -1,16 +1,16 @@
-# NocTurnCPTC
+# PhantomDeck
 
-**NocTurnCPTC** is a command console for offensive-security work: a curated catalog of
+**PhantomDeck** is a command console for offensive-security work: a curated catalog of
 pentest and bug-bounty tools whose command lines you assemble by picking a tool,
 toggling its flags, and watching the command build live — then **yank** the
 finished command (`ctrl+y`) and run it in a separate terminal.
 
 It is a **terminal UI** (TUI) built with [Bubble Tea](https://github.com/charmbracelet/bubbletea).
 
-**NocTurnCPTC never executes anything.** It only assembles command lines for you
+**PhantomDeck never executes anything.** It only assembles command lines for you
 to copy; you decide where and whether to run them.
 
-> This is a trimmed build of NocTurnPen with the AI output evaluator, the
+> This is a trimmed build of PhantomDeckPen with the AI output evaluator, the
 > `--web` browser interface, and the in-TUI command runner removed. All that
 > remains is the command builder.
 
@@ -31,7 +31,7 @@ tools from.
 
 ### The catalogs
 
-NocTurnCPTC bundles several catalogs; `H` / `L` in the tool list switches between
+PhantomDeck bundles several catalogs; `H` / `L` in the tool list switches between
 them:
 
 - **setup** — engagement-setup helpers (/etc/hosts, a fully-knobbed nmap).
@@ -183,14 +183,14 @@ Go 1.27+ is required. This repo was set up with Go installed to `~/.local/share/
 so either run `source ~/.bashrc` (adds it to PATH) or let `run.sh` find it:
 
 ```bash
-cd NocTurnCPTC
-go build -o nocturncptc .   # pure-Go build; CGO is off (see run.sh)
-./nocturncptc               # launch the TUI
+cd PhantomDeck
+go build -o phantomdeck .   # pure-Go build; CGO is off (see run.sh)
+./phantomdeck               # launch the TUI
 ```
 
 Or just `./run.sh` — it finds (or installs) Go, rebuilds, and launches.
 
-To install it system-wide (binary at `/opt/nocturncptc`, launcher `nocturncptc`
+To install it system-wide (binary at `/opt/phantomdeck`, launcher `phantomdeck`
 on every user's PATH), run `sudo ./install.sh --build` from inside the app
 directory.
 
@@ -267,7 +267,7 @@ command.
 
 ## Safety
 
-NocTurnCPTC only **builds** command lines — it never runs them. You copy a
+PhantomDeck only **builds** command lines — it never runs them. You copy a
 command and run it yourself, and nothing checks a command's target for you. Run
 the tools it assembles only against systems you are authorized to test.
-# NocTurnCPTC
+# PhantomDeck

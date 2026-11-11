@@ -1,4 +1,4 @@
-module nocturncptc
+module phantomdeck
 
 go 1.27
 

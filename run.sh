@@ -3,6 +3,14 @@
 set -e
 cd "$(dirname "$0")"
 
+# A stray GOROOT in the environment (e.g. exported by mise, asdf or a shell
+# profile pointing at a *different* Go install) makes the `go` binary we pick
+# below load another toolchain's stdlib and tools, producing errors like
+#   compile: version "go1.27.3" does not match go tool version "go1.27.0"
+# and aborting the build. Every modern `go` binary locates its own GOROOT, so
+# just clear the inherited one and let the selected toolchain self-resolve.
+unset GOROOT
+
 # Go toolchain first, so the `go build` below is found. This repo was set up
 # with Go installed to ~/.local/share/go-sdk/go; only prepend that if it exists, otherwise
 # fall back to whatever `go` is already on PATH.
@@ -74,9 +82,9 @@ fi
 # Pure-Go build: the system gcc here
 # crashes on cgo, so keep cgo off (the DNS resolver falls back to pure Go).
 export CGO_ENABLED=0
-go build -o nocturncptc .
+go build -o phantomdeck .
 
-# NocTurnCPTC only assembles command lines — it does not run them. Yank a
+# PhantomDeck only assembles command lines — it does not run them. Yank a
 # command with ctrl+y and paste it into a separate terminal, where you are
 # responsible for having the tools (subfinder, httpx, ffuf, nuclei, netexec,
 # impacket-*, sqlmap, …) on your PATH.
@@ -85,4 +93,4 @@ go build -o nocturncptc .
 # bundled ./wordlists dir. Uncomment and adjust if you keep SecLists elsewhere.
 # export PENTEST_TUI_WORDLISTS="$HOME/tools/SecLists"
 
-exec ./nocturncptc "$@"
+exec ./phantomdeck "$@"

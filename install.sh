@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
-# Install NocTurnCPTC system-wide so every user on this box can run `nocturncptc`.
+# Install PhantomDeck system-wide so every user on this box can run `phantomdeck`.
 #
 # Layout:
-#   /opt/nocturncptc/nocturncptc   the real binary (rebuilt below with --build)
-#   /opt/nocturncptc/wordlists     bundled wordlists, found next to the binary
-#   /usr/local/bin/nocturncptc     global launcher (on everyone's PATH)
+#   /opt/phantomdeck/phantomdeck   the real binary (rebuilt below with --build)
+#   /opt/phantomdeck/wordlists     bundled wordlists, found next to the binary
+#   /usr/local/bin/phantomdeck     global launcher (on everyone's PATH)
 #
 # Run from inside the app directory on the target box:
-#   sudo ./install.sh            # use the prebuilt ./nocturncptc binary
+#   sudo ./install.sh            # use the prebuilt ./phantomdeck binary
 #   sudo ./install.sh --build    # rebuild from source first (needs Go 1.27+)
 set -euo pipefail
 
 SRC="$(cd "$(dirname "$0")" && pwd)"
-APP_DIR=/opt/nocturncptc
+APP_DIR=/opt/phantomdeck
 
 if [ "$(id -u)" -ne 0 ]; then
 	echo "install.sh: run me with sudo (needs to write /opt and /usr/local/bin)." >&2
@@ -28,18 +28,18 @@ if [ "${1:-}" = "--build" ]; then
 		echo "install.sh: --build given but 'go' not found on PATH." >&2
 		exit 1
 	fi
-	echo "==> building nocturncptc from source"
-	( cd "$SRC" && CGO_ENABLED=0 go build -o nocturncptc . )
+	echo "==> building phantomdeck from source"
+	( cd "$SRC" && CGO_ENABLED=0 go build -o phantomdeck . )
 fi
 
-if [ ! -f "$SRC/nocturncptc" ]; then
-	echo "install.sh: no 'nocturncptc' binary in $SRC (run with --build, or build it first)." >&2
+if [ ! -f "$SRC/phantomdeck" ]; then
+	echo "install.sh: no 'phantomdeck' binary in $SRC (run with --build, or build it first)." >&2
 	exit 1
 fi
 
 echo "==> installing app into $APP_DIR"
 install -d -m 0755 "$APP_DIR"
-install -m 0755 "$SRC/nocturncptc" "$APP_DIR/nocturncptc"
+install -m 0755 "$SRC/phantomdeck" "$APP_DIR/phantomdeck"
 rm -rf "$APP_DIR/wordlists"
 cp -a "$SRC/wordlists" "$APP_DIR/wordlists"
 # The bundled wordlists are redistributed from SecLists (MIT); see
@@ -49,17 +49,17 @@ cp -a "$SRC/wordlists" "$APP_DIR/wordlists"
 # The app resolves wordlists by path at runtime, so either approach works.
 # World-readable files, traversable dirs; nothing group/other-writable.
 chmod -R a+rX "$APP_DIR"
-chmod 0755 "$APP_DIR/nocturncptc"
+chmod 0755 "$APP_DIR/phantomdeck"
 
-echo "==> writing global launcher /usr/local/bin/nocturncptc"
-cat > /usr/local/bin/nocturncptc <<'EOF'
+echo "==> writing global launcher /usr/local/bin/phantomdeck"
+cat > /usr/local/bin/phantomdeck <<'EOF'
 #!/usr/bin/env bash
-# Global launcher for NocTurnCPTC. The app only assembles command lines; you
+# Global launcher for PhantomDeck. The app only assembles command lines; you
 # run the commands you yank (ctrl+y) in your own terminal.
-exec /opt/nocturncptc/nocturncptc "$@"
+exec /opt/phantomdeck/phantomdeck "$@"
 EOF
-chmod 0755 /usr/local/bin/nocturncptc
+chmod 0755 /usr/local/bin/phantomdeck
 
 echo
 echo "Done. Any user can now run:"
-echo "    nocturncptc    # terminal UI — yank commands with ctrl+y"
+echo "    phantomdeck    # terminal UI — yank commands with ctrl+y"

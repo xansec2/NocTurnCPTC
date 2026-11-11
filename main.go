@@ -1,4 +1,4 @@
-// Command nocturncptc is an interactive terminal UI for assembling pentest
+// Command phantomdeck is an interactive terminal UI for assembling pentest
 // tool command lines. Pick a tool, toggle and fill in flags, watch the command
 // build live, then yank it to the clipboard (ctrl+y) and run it in a separate
 // terminal.
